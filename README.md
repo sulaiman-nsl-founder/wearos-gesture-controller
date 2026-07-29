@@ -24,7 +24,7 @@ Before running the Python pipeline on your PC, you must configure your Wear OS s
 
 1. **Install the APK:** 
    Locate the installation file inside the `apk_for_watch` folder in this repository. You will need to install this APK onto your Wear OS watch.
-   *(Insert link on how to sideload/install an APK to a Wear OS watch here)*
+   *[how to sideload/install an APK to a Wear OS watch here](https://youtu.be/Oab9GabAuxc?si=5i2PurIZAwDjGSnT)*
    
 2. **Enable the SDK:** 
    Once the app is installed, open it on your watch and **turn on the SDK toggle**.
