@@ -4,7 +4,8 @@
 
 | Fist Gesture | Flip Gesture |
 | :---: | :---: |
-| ![Fist Gesture](demonstration/fist.gif) | ![Flip Gesture](demonstration/flip.gif) |
+| ![Fist Gesture](demonstration/fist.gif) | 
+| ![Flip Gesture](demonstration/flip.gif) |
 
 An end-to-end Machine Learning pipeline that bridges Wear OS smartwatch kinematics to Windows desktop automation. This project leverages the `touch-sdk` to stream live accelerometer data, processes it into machine-learning-ready tensors, and uses a lightweight TensorFlow Lite (TFLite) 1D Convolutional Neural Network to classify wrist gestures in real-time.
 
