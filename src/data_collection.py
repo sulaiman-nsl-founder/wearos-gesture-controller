@@ -4,9 +4,7 @@ import csv
 import threading
 from touch_sdk import Watch
 
-# Configuration
-RECORD_DURATION = 2.0  # seconds to record after tap
-DATASET_DIR = "dataset"
+from . import config
 
 class DataCollectorWatch(Watch):
     def __init__(self):
@@ -15,18 +13,14 @@ class DataCollectorWatch(Watch):
         self.recording_start_time = 0
         self.current_buffer = []
         self.current_gesture = None
-        
-        # Ensure dataset directory exists
-        if not os.path.exists(DATASET_DIR):
-            os.makedirs(DATASET_DIR)
 
     def set_gesture(self, gesture_name):
         self.current_gesture = gesture_name
-        print(f"\n[READY] Gesture set to '{gesture_name}'. Awaiting tap on watch to start recording...")
+        print(f"\n[READY] Gesture set to '{gesture_name}'. Awaiting double-tap on watch to start recording...")
 
     def on_tap(self):
         if self.current_gesture and not self.is_recording:
-            print(f"🟢 TAP DETECTED! Recording '{self.current_gesture}' for {RECORD_DURATION} seconds...")
+            print(f"🟢 TAP DETECTED! Recording '{self.current_gesture}' for {config.RECORD_DURATION} seconds...")
             self.is_recording = True
             self.recording_start_time = time.time()
             self.current_buffer = []
@@ -39,11 +33,9 @@ class DataCollectorWatch(Watch):
             accel = sensors.acceleration
             
             if accel:
-                # Append data row: timestamp, accel_x, accel_y, accel_z
                 self.current_buffer.append([current_time, accel[0], accel[1], accel[2]])
             
-            # Check if we have recorded for the desired duration
-            if current_time - self.recording_start_time >= RECORD_DURATION:
+            if current_time - self.recording_start_time >= config.RECORD_DURATION:
                 self.is_recording = False
                 self.save_buffer()
 
@@ -54,7 +46,7 @@ class DataCollectorWatch(Watch):
 
         timestamp_str = str(int(time.time() * 1000))
         filename = f"{self.current_gesture}_{timestamp_str}.csv"
-        filepath = os.path.join(DATASET_DIR, filename)
+        filepath = os.path.join(config.RAW_DATA_DIR, filename)
 
         with open(filepath, mode='w', newline='') as file:
             writer = csv.writer(file)
@@ -69,10 +61,9 @@ class DataCollectorWatch(Watch):
         print(f"Ready for next sample. Press Enter in console to record '{filepath.split('_')[0].split(os.sep)[-1]}' again, or type a new one.")
 
 
-def main():
+def run():
     watch = DataCollectorWatch()
     
-    # Run the watch listener in a background thread
     watch_thread = threading.Thread(target=watch.start, daemon=True)
     watch_thread.start()
 
@@ -80,7 +71,7 @@ def main():
     print("      Touch SDK ML Data Collector        ")
     print("=========================================")
     print("Connecting to Watch...")
-    time.sleep(2) # Give it a moment to connect
+    time.sleep(2)
 
     last_gesture = ""
 
@@ -96,14 +87,13 @@ def main():
             if user_input:
                 last_gesture = user_input
             elif not user_input and last_gesture:
-                pass # Use last_gesture
+                pass
             else:
                 print("Please enter a valid gesture name first.")
                 continue
                 
             watch.set_gesture(last_gesture)
             
-            # Wait until recording is finished before prompting again
             while watch.current_gesture is not None:
                 time.sleep(0.1)
                 
@@ -111,4 +101,4 @@ def main():
             break
 
 if __name__ == "__main__":
-    main()
+    run()
