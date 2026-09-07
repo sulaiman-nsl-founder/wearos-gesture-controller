@@ -85,5 +85,9 @@ Run the live inference engine. Double-tap the watch to arm the sensor, perform y
 python main.py run
 ```
 <!-- portfolio: true -->
-![Project hero]([https://github.com/user-attachments/assets/your-image-id](https://github.com/sulaiman-nsl-founder/wearos-gesture-controller/blob/main/demonstration/hand_gestures_hero.png))
+![Project hero](https://github.com/sulaiman-nsl-founder/wearos-gesture-controller/blob/main/demonstration/hand_gestures_hero.png)
 *(To map custom gestures to your PC, edit the `GESTURE_ACTIONS` dictionary inside `src/actions.py`)*
+
+<!-- portfolio: true -->
+
+![Project hero](https://github.com/sulaiman-nsl-founder/wearos-gesture-controller/blob/main/demonstration/hand_gestures_hero.png)
